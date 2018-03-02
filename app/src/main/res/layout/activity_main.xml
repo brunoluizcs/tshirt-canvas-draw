@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.brunosantos.draganddrop.MainActivity">
+
+    <com.example.brunosantos.draganddrop.CanvasView
+        android:id="@+id/fl_container_screen"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ln_actions">
+
+
+    </com.example.brunosantos.draganddrop.CanvasView>
+
+    <LinearLayout
+        android:id="@+id/ln_actions"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fl_container_logo"
+        android:paddingBottom="8dp">
+
+
+        <ImageView
+            android:id="@+id/iv_zoom_in"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_zoom_in"/>
+
+        <ImageView
+            android:id="@+id/iv_zoom_out"
+            android:layout_marginRight="8dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_zoom_out"/>
+
+        <ImageView
+            android:id="@+id/iv_rotate_left"
+            android:layout_marginRight="8dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_rotate_left"/>
+
+        <ImageView
+            android:id="@+id/iv_rotate_right"
+            android:layout_marginRight="8dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_rotate_right"/>
+
+        <ImageView
+            android:id="@+id/iv_flip_to_front"
+            android:layout_marginRight="8dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_flip_to_front"/>
+
+        <ImageView
+            android:id="@+id/iv_flip_to_back"
+            android:layout_marginRight="8dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_flip_to_back"/>
+
+        <ImageView
+            android:id="@+id/iv_remove"
+            android:layout_marginRight="8dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_delete"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fl_container_logo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/logo_container_expanded"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:src="@drawable/ic_android" />
+
+        <ImageView
+            android:id="@+id/iv_logo_2"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:src="@drawable/ic_camera_alt" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
