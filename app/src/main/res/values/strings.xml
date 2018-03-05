@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">DragAndDrop</string>
+    <string name="action_zoom_in">Zoom In</string>
+    <string name="description_zoom_in">Aplica zoom</string>
+    <string name="action_zoom_out">Zoom out</string>
+    <string name="description_zoom_out">Afasta o Zoom</string>
+    <string name="action_rotate_left">Rotate left</string>
+    <string name="description_rotate_left">Girar para esquerda</string>
+    <string name="action_rotate_right">Rotate right</string>
+    <string name="description_rotate_right">Girar para direita</string>
+    <string name="action_flip_front">Flip front</string>
+    <string name="description_flip_front">Trazer para frente</string>
+    <string name="action_flip_back">Flip back</string>
+    <string name="description_flip_back">Trazer para tras</string>
+    <string name="action_delete">Delete</string>
+    <string name="description_delete">Apagar</string>
+    <string name="action_color">Change color</string>
+    <string name="description_color">Mudar a cor da estampa</string>
+    <string name="choose_color">Selecione a cor da estampa</string>
 </resources>

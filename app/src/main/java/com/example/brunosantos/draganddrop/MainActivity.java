@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.DragEvent;
@@ -13,22 +15,30 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.brunosantos.draganddrop.actionpanel.ActionsFragment;
+import com.example.brunosantos.draganddrop.engine.DrawnerEngine;
+import com.example.brunosantos.draganddrop.stamppicker.Stamp;
+import com.example.brunosantos.draganddrop.stamppicker.StampPickerFragment;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnTouch;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String IMAGEVIEW_TAG = "icon bitmap";
 
-    @BindView(R.id.fl_container_logo) View mContainerLogoView;
+    @BindView(R.id.fl_container_stamp_picker) View mContainerLogoView;
     @BindView(R.id.fl_container_screen) CanvasView mCanvasView;
-    @BindView(R.id.iv_logo) ImageView mLogoImageView;
 
     @Override
     protected void onResume() {
         super.onResume();
         mCanvasView.resume();
+    }
+
+    @Override
+    protected void onPause(){
+        mCanvasView.pause();
+        super.onPause();
     }
 
     private final String TAG = MainActivity.class.getSimpleName();
@@ -63,33 +73,19 @@ public class MainActivity extends AppCompatActivity {
                     v.invalidate();
                     return true;
                 case DragEvent.ACTION_DROP:
-                    ClipData.Item item = event.getClipData().getItemAt(0);
+                    Stamp stamp = null;
+                    if (event.getLocalState() instanceof Stamp){
+                        stamp = (Stamp) event.getLocalState();
+                    }
 
-                    /*
-                    TouchableImageView imageView = new TouchableImageView(MainActivity.this);
-                    imageView.setImageResource(R.drawable.ic_android);
-                    imageView.setY(event.getY());
-                    imageView.setX(event.getX());
-                    imageView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                    */
-
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_android,options);
-                    mCanvasView.addBitmap(R.drawable.ic_android,
-                            event.getX(),event.getY(),options.outWidth,options.outHeight);
-
-                    mCanvasView.addBitmap(R.drawable.ic_camera_alt,
-                            event.getX(),event.getY(),options.outWidth,options.outHeight);
-
-                    //((FrameLayout) v).addView(imageView);
-
-
-                    float scale = getResources().getDisplayMetrics().density;
-                    //imageView.getLayoutParams().height = (int)(46 *scale);
-                    //imageView.getLayoutParams().width = (int)(46 * scale);
-
-                    CharSequence dragData = item.getText();
+                    float density = getResources().getDisplayMetrics().density;
+                    if (stamp != null){
+                        DrawnerEngine.getInstance().addStamp(stamp,
+                                event.getX(),event.getY(),
+                                stamp.getmWidth(),
+                                stamp.getmHeight(),
+                                density);
+                    }
 
                     if (v instanceof ImageView)
                         ((ImageView) v).clearColorFilter();
@@ -118,65 +114,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mLogoImageView.setTag(IMAGEVIEW_TAG);
         mCanvasView.setOnDragListener(mDragListen);
+
+        loadStampPickerFragment();
+        loadActionsFragment();
+
     }
 
-    @OnClick(R.id.iv_zoom_in)
-    public void zoomIn(View view){
-        mCanvasView.zoonIn();
-    }
-
-    @OnClick(R.id.iv_zoom_out)
-    public void zoomOut(View view){
-        mCanvasView.zoonOut();
-    }
-
-    @OnClick(R.id.iv_rotate_left)
-    public void rotateLeft(View view){
-        mCanvasView.rotateLeft();
-    }
-
-    @OnClick(R.id.iv_rotate_right)
-    public void rotateRight(View view){
-        mCanvasView.rotateRight();
-    }
-
-    @OnClick(R.id.iv_flip_to_front)
-    public void flipToFront(View view){
-        mCanvasView.flipToFront();
-    }
-
-    @OnClick(R.id.iv_flip_to_back)
-    public void flipToBack(View view){
-        mCanvasView.flipToBack();
-    }
-
-    @OnClick(R.id.iv_remove)
-    public void removeBitmap(View view){
-        mCanvasView.removeBitmap();
-    }
-
-
-    @OnTouch(R.id.iv_logo)
-    public boolean startDrag(View view, MotionEvent event){
-        if (event.getAction() != MotionEvent.ACTION_DOWN){
-            return false;
+    private void loadStampPickerFragment(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(StampPickerFragment.TAG);
+        if (fragment == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fl_container_stamp_picker, StampPickerFragment.newInstance(), ActionsFragment.TAG)
+                    .commit();
         }
-        ClipData.Item item = new ClipData.Item((String) view.getTag());
-        ClipData dragData = new ClipData((String) view.getTag(),new String[]{"text/plain"},item);
-
-        //View.DragShadowBuilder myShadow = new MyDragShadowBuilder(mLogoImageView);
-        View.DragShadowBuilder dragShadowBuilder = new View.DragShadowBuilder(view);
-
-        view.startDrag(dragData,  // the data to be dragged
-                 dragShadowBuilder,  // the drag shadow builder
-                null,      // no need to use local data
-                0          // flags (not currently used, set to 0)
-        );
-        return true;
-
     }
+
+    private void loadActionsFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(ActionsFragment.TAG);
+        if (fragment == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fl_actions, ActionsFragment.newInstance(), ActionsFragment.TAG)
+                    .commit();
+        }
+    }
+
 
 
 

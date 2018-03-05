@@ -2,4 +2,6 @@
 <resources>
     <dimen name="logo_container_expanded">180dp</dimen>
     <dimen name="logo_container_contracted">60dp</dimen>
+    <dimen name="default_action_size">42dp</dimen>
+    <dimen name="action_margin">2dp</dimen>
 </resources>

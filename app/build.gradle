@@ -20,11 +20,17 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:appcompat-v7:' + rootProject.supportLibVersion
+    implementation 'com.android.support:recyclerview-v7:' + rootProject.supportLibVersion
+    implementation 'com.android.support.constraint:constraint-layout:' + rootProject.constraintLayoutVersion
 
     compile 'com.jakewharton:butterknife:' + rootProject.butterKnifeVersion
     annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.butterKnifeVersion
+
+    implementation 'com.github.QuadFlask:colorpicker:' + rootProject.colorPickerVersion
+
+
+
 
 
     testImplementation 'junit:junit:4.12'

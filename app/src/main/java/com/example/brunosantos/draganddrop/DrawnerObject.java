@@ -1,11 +1,14 @@
 package com.example.brunosantos.draganddrop;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.annotation.DrawableRes;
+
+import com.example.brunosantos.draganddrop.stamppicker.Stamp;
 
 public class DrawnerObject {
-    @DrawableRes private int bitmap;
+    private Stamp stamp;
     private float left;
     private float top;
     private float height;
@@ -13,14 +16,19 @@ public class DrawnerObject {
     private float scale = 1.f;
     private float rotateDegrees = 0f;
     private int zIndex = 0;
+    private float density = 0f;
+    private int color;
+    private String hexaColorString;
 
-    public DrawnerObject(@DrawableRes int bitmap, float left, float top, float width, float height, float scale) {
-        this.bitmap = bitmap;
+
+    public DrawnerObject(Stamp stamp, float left, float top, float width, float height, float scale,float density) {
+        this.stamp = stamp;
         this.left = left;
         this.top = top;
         this.width = width;
         this.height = height;
         this.scale = scale;
+        this.density = density;
     }
 
     public Rect getRect(){
@@ -35,8 +43,8 @@ public class DrawnerObject {
         return new RectF(Math.round(left),Math.round(top),right,bottom);
     }
 
-    public int getBitmap() {
-        return bitmap;
+    public Bitmap getBitmap(Context context) {
+        return stamp.getBitmap(context);
     }
 
     public float getLeft() {
@@ -48,11 +56,11 @@ public class DrawnerObject {
     }
 
     public float getHeight() {
-        return height * scale;
+        return height * scale * density;
     }
 
     public float getWidth() {
-        return width * scale;
+        return width * scale * density;
     }
 
     public void setLeft(float left) {
@@ -91,6 +99,12 @@ public class DrawnerObject {
         zIndex--;
     }
 
+    public void setColor(int color) {
+        this.color = color;
+        this.hexaColorString = "0x" + Integer.toHexString(color);
+    }
 
-
+    public int getColor(){
+        return this.color;
+    }
 }
