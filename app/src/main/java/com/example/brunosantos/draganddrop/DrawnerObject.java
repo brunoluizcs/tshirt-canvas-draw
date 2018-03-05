@@ -107,4 +107,8 @@ public class DrawnerObject {
     public int getColor(){
         return this.color;
     }
+
+    public float getDensity() {
+        return density;
+    }
 }

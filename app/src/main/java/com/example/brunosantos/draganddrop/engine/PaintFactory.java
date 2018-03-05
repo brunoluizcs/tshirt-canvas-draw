@@ -2,7 +2,10 @@ package com.example.brunosantos.draganddrop.engine;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 
 import com.example.brunosantos.draganddrop.R;
 
@@ -54,6 +57,12 @@ public class PaintFactory {
     public Paint getTShirtPaint() {
         if (mTShirtPaint == null){
             mTShirtPaint = new Paint();
+            mTShirtPaint.setColorFilter(new PorterDuffColorFilter(Color.parseColor("#ff0000"),
+                    PorterDuff.Mode.MULTIPLY));
+
+            mTShirtPaint.setAntiAlias(true);
+
+
         }
         return mTShirtPaint;
     }

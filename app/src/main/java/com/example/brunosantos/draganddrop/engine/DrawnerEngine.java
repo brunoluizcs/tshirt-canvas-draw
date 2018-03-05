@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.support.annotation.IntDef;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -185,7 +186,7 @@ public class DrawnerEngine {
     }
 
     synchronized private void drawTShirt(Context context, Canvas canvas,Paint paint){
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.t_shirt_front);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.t_shirt_front3);
         canvas.drawBitmap(bitmap,0,0,paint);
     }
 
@@ -208,6 +209,18 @@ public class DrawnerEngine {
 
                 paint.setColorFilter(new PorterDuffColorFilter(drawnerObject.getColor(), PorterDuff.Mode.SRC_ATOP));
                 canvas.drawBitmap(bitmap,drawnerObject.getLeft(),drawnerObject.getTop(),paint);
+
+                /*
+                Typeface plain = Typeface.createFromAsset(context.getAssets(), "font_waltographUI.ttf");
+                Paint p = new Paint();
+                p.setStyle(Paint.Style.FILL_AND_STROKE);
+                p.setColor(context.getResources().getColor(R.color.colorAccent));
+                p.setTypeface(plain);
+                p.setTextSize(drawnerObject.getDensity() * 14);
+                Rect bounds = new Rect();
+                p.getTextBounds("",0,"Sample text".length(),bounds);
+                canvas.drawText("Sample text",drawnerObject.getLeft(),drawnerObject.getTop(),p);
+                */
             }catch (IllegalArgumentException e){
                 Log.e(TAG, "drawObjects: ", e);
             }

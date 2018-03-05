@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\bruno.santos\Documents\tshirt-canvas-draw\app\app.iml" filepath="C:\Users\bruno.santos\Documents\tshirt-canvas-draw\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/tshirt-canvas-draw.iml" filepath="$PROJECT_DIR$/tshirt-canvas-draw.iml" />
+      <module fileurl="file://C:\Users\bruno.santos\Documents\tshirt-canvas-draw\tshirt-canvas-draw.iml" filepath="C:\Users\bruno.santos\Documents\tshirt-canvas-draw\tshirt-canvas-draw.iml" />
     </modules>
   </component>
 </project>
