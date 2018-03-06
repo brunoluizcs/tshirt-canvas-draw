@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -119,6 +122,26 @@ public class MainActivity extends AppCompatActivity {
         loadStampPickerFragment();
         loadActionsFragment();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.drawner,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id  = item.getItemId();
+        switch (id){
+            case R.id.action_color_picker:
+                DrawnerEngine.getInstance()
+                        .setSketchColor(Color.parseColor("#0080ff"));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadStampPickerFragment(){

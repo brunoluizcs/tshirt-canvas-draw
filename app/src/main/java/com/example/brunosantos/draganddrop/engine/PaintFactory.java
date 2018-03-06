@@ -54,15 +54,15 @@ public class PaintFactory {
         return mBackgroundPaint;
     }
 
-    public Paint getTShirtPaint() {
-        if (mTShirtPaint == null){
+    public Paint getTShirtPaint(int color) {
+        if (mTShirtPaint == null) {
             mTShirtPaint = new Paint();
-            mTShirtPaint.setColorFilter(new PorterDuffColorFilter(Color.parseColor("#ff0000"),
-                    PorterDuff.Mode.MULTIPLY));
-
             mTShirtPaint.setAntiAlias(true);
+        }
 
-
+        if (mTShirtPaint.getColor() != color) {
+            mTShirtPaint.setColorFilter(new PorterDuffColorFilter(color,
+                    PorterDuff.Mode.MULTIPLY));
         }
         return mTShirtPaint;
     }

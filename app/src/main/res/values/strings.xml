@@ -17,4 +17,5 @@
     <string name="action_color">Change color</string>
     <string name="description_color">Mudar a cor da estampa</string>
     <string name="choose_color">Selecione a cor da estampa</string>
+    <string name="action_brush">Pintar</string>
 </resources>

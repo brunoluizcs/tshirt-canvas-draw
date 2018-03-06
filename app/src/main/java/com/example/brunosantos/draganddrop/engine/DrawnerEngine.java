@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.support.annotation.IntDef;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -31,6 +30,10 @@ public class DrawnerEngine {
     private static final int NONE = 0;
     private static final int MOVING = 1;
     private static final int ZOOM = 2;
+
+    /*Color for background t-shirt*/
+    private int mSketchColor = Color.WHITE;
+    private String mSketchColorString = "#ffffff";
 
     @State
     private static int mState;
@@ -238,7 +241,9 @@ public class DrawnerEngine {
         canvas.drawRect(0,0,canvas.getWidth(),canvas.getHeight(),
                 PaintFactory.getInstance().getBackgroundPaint(context));
 
-        drawTShirt(context, canvas,PaintFactory.getInstance().getTShirtPaint());
+        drawTShirt(context, canvas,PaintFactory.getInstance()
+                .getTShirtPaint(DrawnerEngine.getInstance().getSketchColor()));
+        
         drawObjects(context, canvas, PaintFactory.getInstance().getPaint());
         drawObjectEdge(canvas,PaintFactory.getInstance().getEdgePaint(context));
     }
@@ -252,5 +257,12 @@ public class DrawnerEngine {
         }
     }
 
+    public int getSketchColor() {
+        return mSketchColor;
+    }
 
+    public void setSketchColor(int mSketchColor) {
+        this.mSketchColor = mSketchColor;
+        this.mSketchColorString = Integer.toHexString(mSketchColor);
+    }
 }
