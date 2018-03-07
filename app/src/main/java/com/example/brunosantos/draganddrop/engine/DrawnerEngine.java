@@ -243,7 +243,7 @@ public class DrawnerEngine {
 
         drawTShirt(context, canvas,PaintFactory.getInstance()
                 .getTShirtPaint(DrawnerEngine.getInstance().getSketchColor()));
-        
+
         drawObjects(context, canvas, PaintFactory.getInstance().getPaint());
         drawObjectEdge(canvas,PaintFactory.getInstance().getEdgePaint(context));
     }

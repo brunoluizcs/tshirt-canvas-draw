@@ -2,10 +2,13 @@ package com.example.brunosantos.draganddrop;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.brunosantos.draganddrop.actionpanel.ActionsFragment;
+import com.example.brunosantos.draganddrop.colordialog.ColorDialogActivity;
 import com.example.brunosantos.draganddrop.engine.DrawnerEngine;
 import com.example.brunosantos.draganddrop.stamppicker.Stamp;
 import com.example.brunosantos.draganddrop.stamppicker.StampPickerFragment;
@@ -134,10 +138,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id  = item.getItemId();
+
         switch (id){
             case R.id.action_color_picker:
+                View v = findViewById(R.id.action_color_picker);
+                presentColorPicker(v);
+                /*
                 DrawnerEngine.getInstance()
-                        .setSketchColor(Color.parseColor("#0080ff"));
+                        .setSketchColor(Color.parseColor("#0080ff"));*/
                 return true;
         }
 
@@ -166,6 +174,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    protected void presentColorPicker(View view){
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this,view,"circular-reveal");
+
+        int revealX = (int) (view.getX() + view.getWidth() / 2);
+        int revealY = (int) (view.getY() + view.getHeight() / 2);
+
+        Intent intent = new Intent(this, ColorDialogActivity.class);
+        intent.putExtra(ColorDialogActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
+        intent.putExtra(ColorDialogActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
+
+        ActivityCompat.startActivityForResult(this, intent,1,optionsCompat.toBundle());
+    }
 
 
 

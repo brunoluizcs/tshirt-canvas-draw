@@ -17,6 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".colordialog.ColorDialogActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.PickerDialog"/>
+
+
+
     </application>
 
 </manifest>
