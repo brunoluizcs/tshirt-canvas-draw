@@ -18,4 +18,8 @@
     <string name="description_color">Mudar a cor da estampa</string>
     <string name="choose_color">Selecione a cor da estampa</string>
     <string name="action_brush">Pintar</string>
+    <string name="action_color_black">Preta</string>
+    <string name="action_color_white">Branca</string>
+    <string name="action_color_blue">Azul</string>
+    <string name="action_color_red">Vermelha</string>
 </resources>

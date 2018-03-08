@@ -140,15 +140,23 @@ public class MainActivity extends AppCompatActivity {
         int id  = item.getItemId();
 
         switch (id){
-            case R.id.action_color_picker:
-                View v = findViewById(R.id.action_color_picker);
-                presentColorPicker(v);
-                /*
+            case R.id.action_color_white:
                 DrawnerEngine.getInstance()
-                        .setSketchColor(Color.parseColor("#0080ff"));*/
-                return true;
+                        .setSketchColor(getResources().getColor(R.color.colorWhite));
+                break;
+            case R.id.action_color_black:
+                DrawnerEngine.getInstance()
+                        .setSketchColor(getResources().getColor(R.color.colorBlack));
+                break;
+            case R.id.action_color_blue:
+                DrawnerEngine.getInstance()
+                        .setSketchColor(getResources().getColor(R.color.colorBlue));
+                break;
+            case R.id.action_color_red:
+                DrawnerEngine.getInstance()
+                        .setSketchColor(getResources().getColor(R.color.colorRed));
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

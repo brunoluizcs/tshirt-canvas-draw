@@ -190,7 +190,7 @@ public class DrawnerEngine {
 
     synchronized private void drawTShirt(Context context, Canvas canvas,Paint paint){
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.t_shirt_front3);
-        canvas.drawBitmap(bitmap,0,0,paint);
+        canvas.drawBitmap(bitmap,0,10,paint);
     }
 
     synchronized private void drawObjects(Context context, Canvas canvas, Paint paint){
@@ -242,7 +242,7 @@ public class DrawnerEngine {
                 PaintFactory.getInstance().getBackgroundPaint(context));
 
         drawTShirt(context, canvas,PaintFactory.getInstance()
-                .getTShirtPaint(DrawnerEngine.getInstance().getSketchColor()));
+                .getTShirtPaint(getSketchColor()));
 
         drawObjects(context, canvas, PaintFactory.getInstance().getPaint());
         drawObjectEdge(canvas,PaintFactory.getInstance().getEdgePaint(context));
