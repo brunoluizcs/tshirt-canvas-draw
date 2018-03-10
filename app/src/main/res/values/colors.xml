@@ -8,4 +8,6 @@
     <color name="colorBlack">@android:color/black</color>
     <color name="colorBlue">#0000ff</color>
     <color name="colorRed">#ff0000</color>
+    <color name="colorTransparent">@android:color/transparent</color>
+    <color name="colorToolsBackground">@color/colorWhite</color>
 </resources>

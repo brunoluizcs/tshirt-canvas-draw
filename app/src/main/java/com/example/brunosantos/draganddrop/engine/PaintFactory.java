@@ -45,11 +45,15 @@ public class PaintFactory {
         return mEdgePaint;
     }
 
-    public Paint getBackgroundPaint(Context context){
+    public Paint getBackgroundPaint(int color){
         if  (mBackgroundPaint == null){
             mBackgroundPaint = new Paint();
-            mBackgroundPaint.setColor(context.getResources().getColor(android.R.color.white));
+            mBackgroundPaint.setColor(color);
             mBackgroundPaint.setAntiAlias(true);
+        }else{
+            if (mBackgroundPaint.getColor() != color){
+                mBackgroundPaint.setColor(color);
+            }
         }
         return mBackgroundPaint;
     }
@@ -58,11 +62,14 @@ public class PaintFactory {
         if (mTShirtPaint == null) {
             mTShirtPaint = new Paint();
             mTShirtPaint.setAntiAlias(true);
+
         }
 
         if (mTShirtPaint.getColor() != color) {
+            mTShirtPaint.setColor(color);
             mTShirtPaint.setColorFilter(new PorterDuffColorFilter(color,
                     PorterDuff.Mode.MULTIPLY));
+
         }
         return mTShirtPaint;
     }

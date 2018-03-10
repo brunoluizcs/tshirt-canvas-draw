@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:showIn="@layout/activity_main" android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <com.example.brunosantos.draganddrop.CanvasView
+        android:id="@+id/fl_container_screen"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        app:layout_constraintBottom_toTopOf="@+id/fl_actions" />
+
+    <FrameLayout
+        android:id="@+id/fl_actions"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fl_container_stamp_picker"
+        android:background="@color/colorToolsBackground"
+        android:paddingBottom="8dp" />
+
+
+    <FrameLayout
+        android:id="@+id/fl_container_stamp_picker"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/logo_container_expanded"
+        android:orientation="horizontal"
+        android:background="@color/colorToolsBackground"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

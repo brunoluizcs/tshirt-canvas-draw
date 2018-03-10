@@ -3,7 +3,6 @@ package com.example.brunosantos.draganddrop.engine;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -16,7 +15,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.brunosantos.draganddrop.DrawnerObject;
-import com.example.brunosantos.draganddrop.R;
+import com.example.brunosantos.draganddrop.engine.elements.BackgroundElement;
+import com.example.brunosantos.draganddrop.engine.elements.ElementDrawable;
+import com.example.brunosantos.draganddrop.engine.elements.TshirtElement;
 import com.example.brunosantos.draganddrop.stamppicker.Stamp;
 
 import java.util.ArrayList;
@@ -31,15 +32,18 @@ public class DrawnerEngine {
     private static final int MOVING = 1;
     private static final int ZOOM = 2;
 
+    private static final int TSHIRT = 0;
+
     /*Color for background t-shirt*/
     private int mSketchColor = Color.WHITE;
     private String mSketchColorString = "#ffffff";
 
+    private ElementDrawable mSketch;
+    private ElementDrawable mBackground;
+
     @State
     private static int mState;
     private int mLastColor = Color.BLACK;
-
-
 
 
     @IntDef({NONE,MOVING, ZOOM})
@@ -51,6 +55,11 @@ public class DrawnerEngine {
             instance = new DrawnerEngine();
         }
         return instance;
+    }
+
+    public DrawnerEngine() {
+        mBackground = new BackgroundElement();
+        mSketch = new TshirtElement();
     }
 
     private List<DrawnerObject> mDrawnerObjectList = new ArrayList<>();
@@ -188,9 +197,8 @@ public class DrawnerEngine {
         }
     }
 
-    synchronized private void drawTShirt(Context context, Canvas canvas,Paint paint){
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.t_shirt_front3);
-        canvas.drawBitmap(bitmap,0,10,paint);
+    synchronized private void drawSketch(Context context, Canvas canvas){
+        mSketch.draw(context,canvas,mSketchColor);
     }
 
     synchronized private void drawObjects(Context context, Canvas canvas, Paint paint){
@@ -237,13 +245,14 @@ public class DrawnerEngine {
         }
     }
 
+    synchronized private void drawBackground(Context context, Canvas canvas){
+        mBackground.draw(context,canvas,Color.parseColor("#f7f7f7"));
+
+    }
+
     synchronized public void draw(Context context, Canvas canvas) {
-        canvas.drawRect(0,0,canvas.getWidth(),canvas.getHeight(),
-                PaintFactory.getInstance().getBackgroundPaint(context));
-
-        drawTShirt(context, canvas,PaintFactory.getInstance()
-                .getTShirtPaint(getSketchColor()));
-
+        drawBackground(context, canvas);
+        drawSketch(context, canvas);
         drawObjects(context, canvas, PaintFactory.getInstance().getPaint());
         drawObjectEdge(canvas,PaintFactory.getInstance().getEdgePaint(context));
     }
