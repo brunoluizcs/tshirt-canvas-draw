@@ -30,6 +30,7 @@ public class PaintFactory {
     public Paint getPaint(){
         if (mPaint == null){
             mPaint = new Paint();
+            mPaint.setAlpha(200);
         }
         return mPaint;
     }
