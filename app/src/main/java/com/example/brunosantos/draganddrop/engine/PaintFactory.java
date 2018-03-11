@@ -40,7 +40,7 @@ public class PaintFactory {
             mEdgePaint.setStyle(Paint.Style.STROKE);
             mEdgePaint.setAntiAlias(true);
             mEdgePaint.setStrokeWidth(4);
-            mEdgePaint.setColor(context.getResources().getColor(R.color.colorPrimary));
+            mEdgePaint.setColor(Color.BLUE);
         }
         return mEdgePaint;
     }
@@ -62,7 +62,10 @@ public class PaintFactory {
         if (mTShirtPaint == null) {
             mTShirtPaint = new Paint();
             mTShirtPaint.setAntiAlias(true);
-
+            /*
+            mTShirtPaint.setShadowLayer(5f,10f,10f,
+                    Color.parseColor("#f7f7f7"));
+                    */
         }
 
         if (mTShirtPaint.getColor() != color) {

@@ -15,12 +15,13 @@ public class TshirtElement implements ElementDrawable {
 
     @Override
     public void draw(Context context, Canvas canvas, int color) {
-        int dx = 0;
-        int dy = 0;
-
         Paint paint = PaintFactory.getInstance().getTShirtPaint(color);
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.t_shirt_front3);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_tshirt_front);
+
+        int dx = (canvas.getWidth() / 2) - (bitmap.getWidth() /2);
+        int dy = (canvas.getHeight() / 2) - (bitmap.getHeight() /2);
         canvas.drawBitmap(bitmap, dx,  dy, paint);
+        bitmap.recycle();
     }
 
 

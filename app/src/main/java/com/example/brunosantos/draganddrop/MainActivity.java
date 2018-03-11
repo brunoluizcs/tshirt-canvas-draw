@@ -3,8 +3,6 @@ package com.example.brunosantos.draganddrop;
 import android.content.ClipDescription;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.DragEvent;
@@ -153,25 +151,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadStampPickerFragment(){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(StampPickerFragment.TAG);
-        if (fragment == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fl_container_stamp_picker, StampPickerFragment.newInstance(), ActionsFragment.TAG)
-                    .commit();
-        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fl_container_stamp_picker, StampPickerFragment.newInstance(), ActionsFragment.TAG)
+                .commit();
     }
 
     private void loadActionsFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(ActionsFragment.TAG);
-        if (fragment == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fl_actions, ActionsFragment.newInstance(), ActionsFragment.TAG)
-                    .commit();
-        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fl_actions, ActionsFragment.newInstance(), ActionsFragment.TAG)
+                .commit();
     }
 
 
