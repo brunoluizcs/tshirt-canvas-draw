@@ -3,6 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_scketch_picker"
+        android:title="@string/action_scketch_picker"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_tshirt_crew">
+        <menu>
+            <item
+                android:id="@+id/action_tshirt"
+                android:title="@string/action_tshirt"/>
+            <item
+                android:id="@+id/action_sweatshirt"
+                android:title="@string/action_sweatshirt"/>
+        </menu>
+    </item>
+
+
+    <item
         android:id="@+id/action_color_picker"
         android:icon="@drawable/ic_action_brush"
         android:title="@string/action_brush"

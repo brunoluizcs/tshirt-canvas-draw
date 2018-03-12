@@ -22,4 +22,7 @@
     <string name="action_color_white">Branca</string>
     <string name="action_color_blue">Azul</string>
     <string name="action_color_red">Vermelha</string>
+    <string name="action_scketch_picker">Modelo de camiseta</string>
+    <string name="action_tshirt">Camiseta</string>
+    <string name="action_sweatshirt">Moleton</string>
 </resources>

@@ -17,9 +17,12 @@ import android.view.MotionEvent;
 import com.example.brunosantos.draganddrop.DrawnerObject;
 import com.example.brunosantos.draganddrop.engine.elements.BackgroundElement;
 import com.example.brunosantos.draganddrop.engine.elements.ElementDrawable;
+import com.example.brunosantos.draganddrop.engine.elements.SweatShirtElement;
 import com.example.brunosantos.draganddrop.engine.elements.TshirtElement;
 import com.example.brunosantos.draganddrop.stamppicker.Stamp;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +35,24 @@ public class DrawnerEngine {
     private static final int MOVING = 1;
     private static final int ZOOM = 2;
 
-    private static final int TSHIRT = 0;
+    public static final int TSHIRT = 0;
+    public static final int SWEATSHIRT = 1;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({TSHIRT, SWEATSHIRT})
+    @interface SketchType{}
+
+    @SketchType private int mSketchType = TSHIRT;
+
+
 
     /*Color for background t-shirt*/
     private int mSketchColor = Color.WHITE;
     private String mSketchColorString = "#ffffff";
 
-    private ElementDrawable mSketch;
+    private ElementDrawable mTShirtSketch;
+    private ElementDrawable mSweatShirtSketch;
+
     private ElementDrawable mBackground;
 
     @State
@@ -59,7 +73,6 @@ public class DrawnerEngine {
 
     public DrawnerEngine() {
         mBackground = new BackgroundElement();
-        mSketch = new TshirtElement();
     }
 
     private List<DrawnerObject> mDrawnerObjectList = new ArrayList<>();
@@ -198,7 +211,7 @@ public class DrawnerEngine {
     }
 
     synchronized private void drawSketch(Context context, Canvas canvas){
-        mSketch.draw(context,canvas,mSketchColor);
+        getSketch().draw(context,canvas,mSketchColor);
     }
 
     synchronized private void drawObjects(Context context, Canvas canvas, Paint paint){
@@ -273,5 +286,34 @@ public class DrawnerEngine {
     public void setSketchColor(int mSketchColor) {
         this.mSketchColor = mSketchColor;
         this.mSketchColorString = Integer.toHexString(mSketchColor);
+    }
+
+    private ElementDrawable getSketch(){
+        switch (mSketchType){
+            case TSHIRT:
+                return getTshirt();
+            case SWEATSHIRT:
+                return getSweatShirtSketch();
+            default:
+                throw new RuntimeException("Background sketch not found");
+        }
+    }
+
+    public void setSketchType(@SketchType int sketchType){
+        this.mSketchType = sketchType;
+    }
+
+    private ElementDrawable getTshirt(){
+        if (mTShirtSketch == null){
+            mTShirtSketch = new TshirtElement();
+        }
+        return mTShirtSketch;
+    }
+
+    private ElementDrawable getSweatShirtSketch(){
+        if (mSweatShirtSketch == null){
+            mSweatShirtSketch = new SweatShirtElement();
+        }
+        return mSweatShirtSketch;
     }
 }

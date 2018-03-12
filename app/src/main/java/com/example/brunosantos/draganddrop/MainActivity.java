@@ -146,6 +146,12 @@ public class MainActivity extends AppCompatActivity {
                 DrawnerEngine.getInstance()
                         .setSketchColor(getResources().getColor(R.color.colorRed));
                 break;
+            case R.id.action_tshirt:
+                DrawnerEngine.getInstance().setSketchType(DrawnerEngine.TSHIRT);
+                break;
+            case R.id.action_sweatshirt:
+                DrawnerEngine.getInstance().setSketchType(DrawnerEngine.SWEATSHIRT);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
