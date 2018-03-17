@@ -25,4 +25,5 @@
     <string name="action_scketch_picker">Modelo de camiseta</string>
     <string name="action_tshirt">Camiseta</string>
     <string name="action_sweatshirt">Moleton</string>
+    <string name="action_text_field">Texto</string>
 </resources>

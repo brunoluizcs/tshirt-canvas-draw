@@ -2,27 +2,19 @@ package com.example.brunosantos.draganddrop.engine;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.support.annotation.IntDef;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import com.example.brunosantos.draganddrop.DrawnerObject;
 import com.example.brunosantos.draganddrop.engine.elements.BackgroundElement;
+import com.example.brunosantos.draganddrop.engine.elements.DrawnerObject;
 import com.example.brunosantos.draganddrop.engine.elements.ElementDrawable;
-import com.example.brunosantos.draganddrop.engine.elements.SweatShirtElement;
-import com.example.brunosantos.draganddrop.engine.elements.TshirtElement;
+import com.example.brunosantos.draganddrop.engine.scketch.SketchFactory;
 import com.example.brunosantos.draganddrop.stamppicker.Stamp;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,24 +27,7 @@ public class DrawnerEngine {
     private static final int MOVING = 1;
     private static final int ZOOM = 2;
 
-    public static final int TSHIRT = 0;
-    public static final int SWEATSHIRT = 1;
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({TSHIRT, SWEATSHIRT})
-    @interface SketchType{}
-
-    @SketchType private int mSketchType = TSHIRT;
-
-
-
-    /*Color for background t-shirt*/
-    private int mSketchColor = Color.WHITE;
-    private String mSketchColorString = "#ffffff";
-
-    private ElementDrawable mTShirtSketch;
-    private ElementDrawable mSweatShirtSketch;
-
+    private ElementDrawable mSketch;
     private ElementDrawable mBackground;
 
     @State
@@ -73,6 +48,7 @@ public class DrawnerEngine {
 
     public DrawnerEngine() {
         mBackground = new BackgroundElement();
+        setSketchType(SketchFactory.TSHIRT);
     }
 
     private List<DrawnerObject> mDrawnerObjectList = new ArrayList<>();
@@ -82,7 +58,7 @@ public class DrawnerEngine {
         Rect rect1 = new Rect(x, y, x + 46, y + 46);
         for (DrawnerObject object : mDrawnerObjectList){
             mCurrentObject = null;
-            if (object.getRect().intersect(rect1)){
+            if (object.intersect(rect1)){
                 mState = MOVING;
                 mCurrentObject = object;
                 break;
@@ -104,8 +80,7 @@ public class DrawnerEngine {
     public void actionMove(MotionEvent event) {
         Log.d(TAG, "onTouch: movendo");
         if (mCurrentObject != null && mState == MOVING){
-            mCurrentObject.setLeft(event.getX() - mCurrentObject.getWidth()/2);
-            mCurrentObject.setTop(event.getY() - mCurrentObject.getHeight()/2);
+            mCurrentObject.move(event.getX(),event.getY());
         }
     }
 
@@ -128,48 +103,38 @@ public class DrawnerEngine {
 
     synchronized public void zoomIn(){
         if (mCurrentObject != null){
-            float scaleFactor = mCurrentObject.getScale();
-            scaleFactor *= 1.1f;
-            scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 5.0f));
-            mCurrentObject.setScale(scaleFactor);
+            mCurrentObject.zoomIn();
         }
     }
 
     synchronized public void zoomOut(){
         if (mCurrentObject != null){
-            float scaleFactor = mCurrentObject.getScale();
-            scaleFactor -= scaleFactor * 0.1f;
-            scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 5.0f));
-            mCurrentObject.setScale(scaleFactor);
+            mCurrentObject.zoomOut();
         }
     }
 
     synchronized public void rotateLeft(){
         if (mCurrentObject != null){
-            float degrees = mCurrentObject.getRotateDegrees();
-            degrees -= 1 * 5.0f;
-            mCurrentObject.setRotateDegrees(degrees);
+            mCurrentObject.rotateLeft();
         }
     }
 
     synchronized public void rotateRight(){
         if (mCurrentObject != null){
-            float degrees = mCurrentObject.getRotateDegrees();
-            degrees += 1 * 5.0f;
-            mCurrentObject.setRotateDegrees(degrees);
+            mCurrentObject.rotateRight();
         }
     }
 
     synchronized public void flipToFront() {
         if (mCurrentObject != null){
-            mCurrentObject.incZIndex();
+            mCurrentObject.flipToFront();
             sortDrawners(mDrawnerObjectList);
         }
     }
 
     synchronized public void flipToBack() {
         if (mCurrentObject != null){
-            mCurrentObject.decZIndex();
+            mCurrentObject.flipToBack();
             sortDrawners(mDrawnerObjectList);
         }
     }
@@ -197,7 +162,7 @@ public class DrawnerEngine {
     }
 
 
-    synchronized public void sortDrawners(List<DrawnerObject> drawnerObjects){
+    synchronized private void sortDrawners(List<DrawnerObject> drawnerObjects){
         for(int i = 0; i <= drawnerObjects.size() -1; i++){
             DrawnerObject current = drawnerObjects.get(i);
             if (i > 0){
@@ -210,41 +175,13 @@ public class DrawnerEngine {
         }
     }
 
-    synchronized private void drawSketch(Context context, Canvas canvas){
-        getSketch().draw(context,canvas,mSketchColor);
-    }
 
-    synchronized private void drawObjects(Context context, Canvas canvas, Paint paint){
+
+    synchronized private void drawObjects(Context context, Canvas canvas){
 
         for (DrawnerObject drawnerObject : mDrawnerObjectList) {
             try{
-                Bitmap bitmap = drawnerObject.getBitmap(context);
-                bitmap = Bitmap.createScaledBitmap(bitmap,
-                        Math.round(drawnerObject.getWidth()),
-                        Math.round(drawnerObject.getHeight()),false);
-
-                Matrix matrix = new Matrix();
-                matrix.preRotate(drawnerObject.getRotateDegrees());
-
-                bitmap = Bitmap.createBitmap(bitmap,0,0,
-                        Math.round(drawnerObject.getWidth()),
-                        Math.round(drawnerObject.getHeight()),
-                        matrix,false);
-
-                paint.setColorFilter(new PorterDuffColorFilter(drawnerObject.getColor(), PorterDuff.Mode.SRC_ATOP));
-                canvas.drawBitmap(bitmap,drawnerObject.getLeft(),drawnerObject.getTop(),paint);
-
-                /*
-                Typeface plain = Typeface.createFromAsset(context.getAssets(), "font_waltographUI.ttf");
-                Paint p = new Paint();
-                p.setStyle(Paint.Style.FILL_AND_STROKE);
-                p.setColor(context.getResources().getColor(R.color.colorAccent));
-                p.setTypeface(plain);
-                p.setTextSize(drawnerObject.getDensity() * 14);
-                Rect bounds = new Rect();
-                p.getTextBounds("",0,"Sample text".length(),bounds);
-                canvas.drawText("Sample text",drawnerObject.getLeft(),drawnerObject.getTop(),p);
-                */
+                drawnerObject.draw(context,canvas,Color.BLACK);
             }catch (IllegalArgumentException e){
                 Log.e(TAG, "drawObjects: ", e);
             }
@@ -252,22 +189,14 @@ public class DrawnerEngine {
     }
 
 
-    synchronized private void drawObjectEdge(Canvas canvas, Paint paint) {
-        if (mCurrentObject != null){
-            canvas.drawRoundRect(mCurrentObject.getRectF(),10,10, paint);
-        }
-    }
-
     synchronized private void drawBackground(Context context, Canvas canvas){
-        mBackground.draw(context,canvas,Color.parseColor("#f7f7f7"));
-
+        mBackground.draw(context,canvas);
     }
 
     synchronized public void draw(Context context, Canvas canvas) {
         drawBackground(context, canvas);
         drawSketch(context, canvas);
-        drawObjects(context, canvas, PaintFactory.getInstance().getPaint());
-        drawObjectEdge(canvas,PaintFactory.getInstance().getEdgePaint(context));
+        drawObjects(context, canvas);
     }
 
     public void scale(float factor) {
@@ -279,41 +208,17 @@ public class DrawnerEngine {
         }
     }
 
-    public int getSketchColor() {
-        return mSketchColor;
+    synchronized private void drawSketch(Context context, Canvas canvas){
+        mSketch.draw(context,canvas);
     }
 
     public void setSketchColor(int mSketchColor) {
-        this.mSketchColor = mSketchColor;
-        this.mSketchColorString = Integer.toHexString(mSketchColor);
+        mSketch.setColor(mSketchColor);
     }
 
-    private ElementDrawable getSketch(){
-        switch (mSketchType){
-            case TSHIRT:
-                return getTshirt();
-            case SWEATSHIRT:
-                return getSweatShirtSketch();
-            default:
-                throw new RuntimeException("Background sketch not found");
-        }
+    public void setSketchType(@SketchFactory.SketchType int sketchType){
+        this.mSketch = SketchFactory.getInstance().getSketch(sketchType);
     }
 
-    public void setSketchType(@SketchType int sketchType){
-        this.mSketchType = sketchType;
-    }
 
-    private ElementDrawable getTshirt(){
-        if (mTShirtSketch == null){
-            mTShirtSketch = new TshirtElement();
-        }
-        return mTShirtSketch;
-    }
-
-    private ElementDrawable getSweatShirtSketch(){
-        if (mSweatShirtSketch == null){
-            mSweatShirtSketch = new SweatShirtElement();
-        }
-        return mSweatShirtSketch;
-    }
 }

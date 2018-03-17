@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_text_field"
+        android:title="@string/action_text_field"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_text_fields"/>
+
+    <item
         android:id="@+id/action_scketch_picker"
         android:title="@string/action_scketch_picker"
         app:showAsAction="always"
@@ -20,7 +26,7 @@
 
     <item
         android:id="@+id/action_color_picker"
-        android:icon="@drawable/ic_action_brush"
+        android:icon="@drawable/ic_action_format_color_fill"
         android:title="@string/action_brush"
         app:showAsAction="always">
         <menu>

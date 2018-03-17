@@ -6,5 +6,7 @@ import android.graphics.Canvas;
 
 
 public interface ElementDrawable {
-     void draw(Context context, Canvas canvas,int color);
+     int getColor();
+     void setColor(int color);
+     void draw(Context context, Canvas canvas);
 }

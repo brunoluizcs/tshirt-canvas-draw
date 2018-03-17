@@ -30,12 +30,12 @@ public class PaintFactory {
     public Paint getPaint(){
         if (mPaint == null){
             mPaint = new Paint();
-            mPaint.setAlpha(200);
+            mPaint.setAlpha(150);
         }
         return mPaint;
     }
 
-    public Paint getEdgePaint(Context context){
+    public Paint getEdgePaint(){
         if (mEdgePaint == null){
             mEdgePaint = new Paint();
             mEdgePaint.setStyle(Paint.Style.STROKE);
