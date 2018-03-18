@@ -1,8 +1,13 @@
 package com.example.brunosantos.draganddrop.engine.stamp;
 
-/**
- * Created by brunosantos on 17/03/2018.
- */
+
+import android.content.Context;
+import android.graphics.Canvas;
 
 public interface Stamp {
+    void draw(Context context, Canvas canvas, float width, float height,
+              float left, float top, float rotateDegrees, int color, float density);
+    int getWidth();
+    int getHeight();
+
 }

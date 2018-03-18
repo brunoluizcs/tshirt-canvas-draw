@@ -1,7 +1,7 @@
 package com.example.brunosantos.draganddrop.engine.elements;
 
 
-import android.graphics.Rect;
+import android.graphics.RectF;
 
 public interface ElementStamp {
 
@@ -12,5 +12,6 @@ public interface ElementStamp {
     void flipToFront();
     void flipToBack();
     void move(float x, float y);
-    boolean intersect(Rect rect);
+    boolean intersect(RectF rect);
+    void scale(float factor);
 }

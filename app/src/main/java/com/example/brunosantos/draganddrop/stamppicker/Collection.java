@@ -1,17 +1,19 @@
 package com.example.brunosantos.draganddrop.stamppicker;
 
 
+import com.example.brunosantos.draganddrop.engine.stamp.PictureStamp;
+
 import java.util.List;
 
 public class Collection {
 
-    private List<Stamp> mStamps;
+    private List<PictureStamp> mPictureStamps;
 
-    public Collection(List<Stamp> mStamps) {
-        this.mStamps = mStamps;
+    public Collection(List<PictureStamp> mPictureStamps) {
+        this.mPictureStamps = mPictureStamps;
     }
 
-    public List<Stamp> getStamps() {
-        return mStamps;
+    public List<PictureStamp> getStamps() {
+        return mPictureStamps;
     }
 }

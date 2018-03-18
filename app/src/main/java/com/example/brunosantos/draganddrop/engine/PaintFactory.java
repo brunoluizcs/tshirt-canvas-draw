@@ -1,13 +1,10 @@
 package com.example.brunosantos.draganddrop.engine;
 
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-
-import com.example.brunosantos.draganddrop.R;
 
 public class PaintFactory {
 
@@ -30,7 +27,6 @@ public class PaintFactory {
     public Paint getPaint(){
         if (mPaint == null){
             mPaint = new Paint();
-            mPaint.setAlpha(150);
         }
         return mPaint;
     }

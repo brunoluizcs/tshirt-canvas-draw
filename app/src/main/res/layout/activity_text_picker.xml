@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp">
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/tv_text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:textColor="@color/colorWhite"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:maxLength="40"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:inputType="textAutoCorrect|textAutoComplete"
+        android:imeOptions="actionDone"/>
+
+
+
+</FrameLayout>

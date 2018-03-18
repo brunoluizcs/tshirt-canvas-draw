@@ -4,10 +4,14 @@
     <color name="colorPrimaryDark">#007ac1</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="colorTextPickerBackground">@color/colorBlackOverlay</color>
+
     <color name="colorWhite">@android:color/white</color>
     <color name="colorBlack">@android:color/black</color>
     <color name="colorBlue">#0000ff</color>
     <color name="colorRed">#ff0000</color>
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorToolsBackground">@color/colorWhite</color>
+    <color name="colorBlackOverlay">#cc000000</color>
+
 </resources>

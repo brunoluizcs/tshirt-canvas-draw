@@ -1,17 +1,11 @@
 package com.example.brunosantos.draganddrop.engine.elements;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.example.brunosantos.draganddrop.engine.PaintFactory;
-import com.example.brunosantos.draganddrop.stamppicker.Stamp;
+import com.example.brunosantos.draganddrop.engine.stamp.Stamp;
 
 public class DrawnerObject implements
         ElementDrawable,
@@ -27,10 +21,10 @@ public class DrawnerObject implements
     private int zIndex = 0;
     private float density = 0f;
     private int color;
-    private String hexaColorString;
 
 
-    public DrawnerObject(Stamp stamp, float left, float top, float width, float height, float scale,float density) {
+    public DrawnerObject(Stamp stamp, float left, float top, float width, float height,
+                         float scale, float density) {
         this.stamp = stamp;
         this.left = left;
         this.top = top;
@@ -40,21 +34,16 @@ public class DrawnerObject implements
         this.density = density;
     }
 
-    public Rect getRect(){
-        int right = Math.round(left + getWidth());
-        int bottom = Math.round(top + getHeight());
-        return new Rect(Math.round(left),Math.round(top),right,bottom);
-    }
-
     public RectF getRectF(){
         int right = Math.round(left + getWidth());
         int bottom = Math.round(top + getHeight());
-        return new RectF(Math.round(left),Math.round(top),right,bottom);
+        RectF rectF = new RectF(Math.round(left),Math.round(top),right,bottom);
+        Matrix m = new Matrix();
+        m.setRotate(rotateDegrees, rectF.centerX(), rectF.centerY());
+        m.mapRect(rectF);
+        return rectF;
     }
 
-    private Bitmap getBitmap(Context context) {
-        return stamp.getBitmap(context);
-    }
 
     public float getLeft() {
         return left;
@@ -64,15 +53,15 @@ public class DrawnerObject implements
         return top;
     }
 
-    private float getHeight() {
+    public float getHeight() {
         return height * scale * density;
     }
 
-    private float getWidth() {
+    public float getWidth() {
         return width * scale * density;
     }
 
-    public void setLeft(float left) {
+    protected void setLeft(float left) {
         this.left = left;
     }
 
@@ -80,19 +69,19 @@ public class DrawnerObject implements
         this.top = top;
     }
 
-    public void setScale(float scale){
+    protected void setScale(float scale){
         this.scale = scale;
     }
 
-    public float getScale() {
+    protected float getScale() {
         return scale;
     }
 
-    private float getRotateDegrees() {
+    public float getRotateDegrees() {
         return rotateDegrees;
     }
 
-    public void setRotateDegrees(float rotateDegrees) {
+    protected void setRotateDegrees(float rotateDegrees) {
         this.rotateDegrees = rotateDegrees;
     }
 
@@ -100,20 +89,22 @@ public class DrawnerObject implements
         return zIndex;
     }
 
-    private void incZIndex(){
+    protected void incZIndex(){
         zIndex++;
     }
 
-    private void decZIndex(){
+    protected void decZIndex(){
         zIndex--;
     }
 
+
+    @Override
     public void setColor(int color) {
         this.color = color;
-        this.hexaColorString = "0x" + Integer.toHexString(color);
     }
 
-    private int getColor(){
+    @Override
+    public int getColor(){
         return this.color;
     }
 
@@ -122,35 +113,10 @@ public class DrawnerObject implements
     }
 
     @Override
-    public void draw(Context context, Canvas canvas, int color) {
-        Bitmap bitmap = this.getBitmap(context);
-        bitmap = Bitmap.createScaledBitmap(bitmap,
-                Math.round(getWidth()),
-                Math.round(getHeight()),false);
+    public void draw(Context context, Canvas canvas) {
+        stamp.draw(context,canvas,getWidth(),getHeight(),getLeft(),getTop(),
+                getRotateDegrees(),getColor(),getDensity());
 
-        Matrix matrix = new Matrix();
-        matrix.preRotate(getRotateDegrees());
-
-        bitmap = Bitmap.createBitmap(bitmap,0,0,
-                Math.round(getWidth()),
-                Math.round(getHeight()),
-                matrix,false);
-
-        Paint paint = PaintFactory.getInstance().getPaint();
-        paint.setColorFilter(new PorterDuffColorFilter(getColor(), PorterDuff.Mode.SRC_ATOP));
-        canvas.drawBitmap(bitmap,getLeft(),getTop(),paint);
-        canvas.drawRoundRect(getRectF(),10,10, PaintFactory.getInstance().getEdgePaint());
-                /*
-                Typeface plain = Typeface.createFromAsset(context.getAssets(), "font_waltographUI.ttf");
-                Paint p = new Paint();
-                p.setStyle(Paint.Style.FILL_AND_STROKE);
-                p.setColor(context.getResources().getColor(R.color.colorAccent));
-                p.setTypeface(plain);
-                p.setTextSize(drawnerObject.getDensity() * 14);
-                Rect bounds = new Rect();
-                p.getTextBounds("",0,"Sample text".length(),bounds);
-                canvas.drawText("Sample text",drawnerObject.getLeft(),drawnerObject.getTop(),p);
-                */
     }
 
     @Override
@@ -172,14 +138,14 @@ public class DrawnerObject implements
     @Override
     public void rotateLeft() {
         float degrees = getRotateDegrees();
-        degrees -= 1 * 5.0f;
+        degrees -= 3 * 10.0f;
         setRotateDegrees(degrees);
     }
 
     @Override
     public void rotateRight() {
         float degrees = getRotateDegrees();
-        degrees += 1 * 5.0f;
+        degrees += 3 * 10.0f;
         setRotateDegrees(degrees);
     }
 
@@ -200,7 +166,15 @@ public class DrawnerObject implements
     }
 
     @Override
-    public boolean intersect(Rect rect) {
-        return getRect().intersect(rect);
+    public boolean intersect(RectF rect) {
+        return getRectF().intersect(rect);
+    }
+
+    @Override
+    public void scale(float factor) {
+        float scaleFactor = getScale();
+        scaleFactor *= factor;
+        scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 5.0f));
+        setScale(scaleFactor);
     }
 }

@@ -15,6 +15,7 @@ public class SketchFactory {
     private TshirtElement mTShirtSketch;
     private SweatshirtElement mSweatShirtSketch;
 
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({TSHIRT, SWEATSHIRT})
     public @interface SketchType{}

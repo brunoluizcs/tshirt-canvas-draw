@@ -1,9 +1,10 @@
 package com.example.brunosantos.draganddrop;
 
 import android.content.ClipDescription;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Menu;
@@ -14,17 +15,26 @@ import android.widget.ImageView;
 
 import com.example.brunosantos.draganddrop.actionpanel.ActionsFragment;
 import com.example.brunosantos.draganddrop.engine.DrawnerEngine;
-import com.example.brunosantos.draganddrop.stamppicker.Stamp;
+import com.example.brunosantos.draganddrop.engine.stamp.PictureStamp;
+import com.example.brunosantos.draganddrop.engine.stamp.TextStamp;
 import com.example.brunosantos.draganddrop.stamppicker.StampPickerFragment;
+import com.example.brunosantos.draganddrop.textpicker.TextPickerActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.brunosantos.draganddrop.engine.scketch.SketchFactory.SWEATSHIRT;
+import static com.example.brunosantos.draganddrop.engine.scketch.SketchFactory.TSHIRT;
 
-public class MainActivity extends AppCompatActivity {
 
+public class MainActivity extends BaseActivity {
+
+    private static final int TEXT_REQUEST = 100;
     @BindView(R.id.fl_container_stamp_picker) View mContainerLogoView;
     @BindView(R.id.fl_container_screen) CanvasView mCanvasView;
+    @BindView(R.id.toolbar_main) Toolbar mToolbar;
+
+
 
     @Override
     protected void onResume() {
@@ -70,17 +80,17 @@ public class MainActivity extends AppCompatActivity {
                     v.invalidate();
                     return true;
                 case DragEvent.ACTION_DROP:
-                    Stamp stamp = null;
-                    if (event.getLocalState() instanceof Stamp){
-                        stamp = (Stamp) event.getLocalState();
+                    PictureStamp pictureStamp = null;
+                    if (event.getLocalState() instanceof PictureStamp){
+                        pictureStamp = (PictureStamp) event.getLocalState();
                     }
 
                     float density = getResources().getDisplayMetrics().density;
-                    if (stamp != null){
-                        DrawnerEngine.getInstance().addStamp(stamp,
+                    if (pictureStamp != null){
+                        DrawnerEngine.getInstance().addStamp(pictureStamp,
                                 event.getX(),event.getY(),
-                                stamp.getmWidth(),
-                                stamp.getmHeight(),
+                                pictureStamp.getWidth(),
+                                pictureStamp.getHeight(),
                                 density);
                     }
 
@@ -110,9 +120,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
+
+        if  (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mCanvasView.setOnDragListener(mDragListen);
-
         loadStampPickerFragment();
         loadActionsFragment();
 
@@ -147,10 +160,14 @@ public class MainActivity extends AppCompatActivity {
                         .setSketchColor(getResources().getColor(R.color.colorRed));
                 break;
             case R.id.action_tshirt:
-                DrawnerEngine.getInstance().setSketchType(DrawnerEngine.TSHIRT);
+                DrawnerEngine.getInstance().setSketchType(TSHIRT);
                 break;
             case R.id.action_sweatshirt:
-                DrawnerEngine.getInstance().setSketchType(DrawnerEngine.SWEATSHIRT);
+                DrawnerEngine.getInstance().setSketchType(SWEATSHIRT);
+                break;
+            case R.id.action_text_field:
+                startActivityForResult(new Intent(this, TextPickerActivity.class),TEXT_REQUEST);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -170,8 +187,26 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == TEXT_REQUEST) {
+                if (data.getExtras() != null && data.hasExtra(Intent.EXTRA_TEXT)){
+                    createTextStamp(data.getStringExtra(Intent.EXTRA_TEXT));
+                }
+            }
+        }
+    }
 
+    public void createTextStamp(String text){
+        float density = getResources().getDisplayMetrics().density;
+        TextStamp textStamp = new TextStamp(text,10 * density);
+        DrawnerEngine.getInstance().addStamp(textStamp,
+                100,100,
+                textStamp.getWidth(),
+                textStamp.getHeight(),
+                density);
 
-
-
+    }
 }

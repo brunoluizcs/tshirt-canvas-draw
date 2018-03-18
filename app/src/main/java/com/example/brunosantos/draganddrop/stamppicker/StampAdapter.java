@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.brunosantos.draganddrop.R;
+import com.example.brunosantos.draganddrop.engine.stamp.PictureStamp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +21,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StampAdapter extends RecyclerView.Adapter<StampAdapter.StampViewHolder>{
-    private List<Stamp> mDataSet;
+    private List<PictureStamp> mDataSet;
 
-    public void swapDataSet(@NonNull  List<Stamp> stamps){
+    public void swapDataSet(@NonNull  List<PictureStamp> pictureStamps){
         if (mDataSet == null){
             mDataSet = new ArrayList<>();
         }
         mDataSet.clear();
-        mDataSet.addAll(stamps);
+        mDataSet.addAll(pictureStamps);
     }
 
     @Override
@@ -57,12 +58,13 @@ public class StampAdapter extends RecyclerView.Adapter<StampAdapter.StampViewHol
             mContext = itemView.getContext();
             ButterKnife.bind(this,itemView);
             itemView.setOnTouchListener(this);
-            itemView.setTag("Stamp");
+            itemView.setTag("PictureStamp");
+
 
         }
 
-        public void bind(Stamp stamp){
-            mStampImageView.setImageBitmap(stamp.getBitmap(mContext));
+        public void bind(PictureStamp pictureStamp){
+            mStampImageView.setImageBitmap(pictureStamp.getBitmap(mContext));
         }
 
 

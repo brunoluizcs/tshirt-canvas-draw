@@ -1,4 +1,4 @@
-package com.example.brunosantos.draganddrop.stamppicker;
+package com.example.brunosantos.draganddrop.engine.stamp;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -19,8 +19,8 @@ import com.example.brunosantos.draganddrop.engine.PaintFactory;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Stamp {
-    private final String TAG = Stamp.class.getSimpleName();
+public class PictureStamp implements Stamp {
+    private final String TAG = PictureStamp.class.getSimpleName();
     private enum StampType {ASSET,RESOURCE,REPOSITORY}
 
     private String mFilePath;
@@ -31,17 +31,17 @@ public class Stamp {
     private int mWidth;
     private int mHeight;
 
-    public Stamp(Uri filePath) {
+    public PictureStamp(Uri filePath) {
         this.mStampType  = StampType.REPOSITORY;
         this.mFilePath = filePath.getPath();
     }
 
-    public Stamp(String assetName) {
+    public PictureStamp(String assetName) {
         this.mStampType = StampType.ASSET;
         this.mAssetName = assetName;
     }
 
-    public Stamp(@DrawableRes int drawableId){
+    public PictureStamp(@DrawableRes int drawableId){
         this.mStampType = StampType.RESOURCE;
         this.mDrawableId = drawableId;
     }
@@ -96,16 +96,21 @@ public class Stamp {
         return bitmap;
     }
 
+    @Override
     public int getWidth() {
         return mWidth;
     }
 
 
+    @Override
     public int getHeight() {
         return mHeight;
     }
 
-    public void draw(Context context, Canvas canvas, float width, float height, float left, float top, float rotateDegrees, int color) {
+    @Override
+    public void draw(Context context, Canvas canvas, float width, float height,
+                     float left, float top, float rotateDegrees, int color, float density) {
+
         Bitmap bitmap = this.getBitmap(context);
         if (bitmap == null){
             return;
@@ -116,16 +121,17 @@ public class Stamp {
                 Math.round(height),false);
 
         Matrix matrix = new Matrix();
-        matrix.preRotate(rotateDegrees);
-
-        bitmap = Bitmap.createBitmap(bitmap,0,0,
-                Math.round(width),
-                Math.round(height),
-                matrix,false);
+        matrix.preRotate(rotateDegrees,width/2,height/2);
+        matrix.postTranslate(left,top);
 
         Paint paint = PaintFactory.getInstance().getPaint();
         paint.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        canvas.drawBitmap(bitmap,left,top,paint);
+        canvas.drawBitmap(bitmap,matrix,paint);
+
     }
+
+
+
+
 
 }

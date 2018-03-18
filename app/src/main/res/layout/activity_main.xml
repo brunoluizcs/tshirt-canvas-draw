@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context="com.example.brunosantos.draganddrop.MainActivity">
 
+    <include layout="@layout/content_toolbar"/>
+
 
     <include layout="@layout/content_drawner_activity" />
 
