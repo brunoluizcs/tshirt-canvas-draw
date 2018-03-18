@@ -4,17 +4,23 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import com.example.brunosantos.draganddrop.engine.PaintFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class Stamp {
     private final String TAG = Stamp.class.getSimpleName();
-
     private enum StampType {ASSET,RESOURCE,REPOSITORY}
 
     private String mFilePath;
@@ -90,13 +96,36 @@ public class Stamp {
         return bitmap;
     }
 
-    public int getmWidth() {
+    public int getWidth() {
         return mWidth;
     }
 
 
-    public int getmHeight() {
+    public int getHeight() {
         return mHeight;
+    }
+
+    public void draw(Context context, Canvas canvas, float width, float height, float left, float top, float rotateDegrees, int color) {
+        Bitmap bitmap = this.getBitmap(context);
+        if (bitmap == null){
+            return;
+        }
+
+        bitmap = Bitmap.createScaledBitmap(bitmap,
+                Math.round(width),
+                Math.round(height),false);
+
+        Matrix matrix = new Matrix();
+        matrix.preRotate(rotateDegrees);
+
+        bitmap = Bitmap.createBitmap(bitmap,0,0,
+                Math.round(width),
+                Math.round(height),
+                matrix,false);
+
+        Paint paint = PaintFactory.getInstance().getPaint();
+        paint.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        canvas.drawBitmap(bitmap,left,top,paint);
     }
 
 }
