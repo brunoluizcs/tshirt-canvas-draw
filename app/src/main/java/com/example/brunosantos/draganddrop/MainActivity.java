@@ -18,7 +18,7 @@ import com.example.brunosantos.draganddrop.engine.DrawnerEngine;
 import com.example.brunosantos.draganddrop.engine.stamp.PictureStamp;
 import com.example.brunosantos.draganddrop.engine.stamp.TextStamp;
 import com.example.brunosantos.draganddrop.stamppicker.StampPickerFragment;
-import com.example.brunosantos.draganddrop.textpicker.TextPickerActivity;
+import com.example.brunosantos.draganddrop.textpicker.view.TextPickerActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

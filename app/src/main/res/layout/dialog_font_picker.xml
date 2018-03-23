@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@color/colorFontPickerBackground">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_font_picker"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/logo_container_expanded" />
+
+</FrameLayout>

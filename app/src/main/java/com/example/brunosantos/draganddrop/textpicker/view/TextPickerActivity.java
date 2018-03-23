@@ -1,4 +1,4 @@
-package com.example.brunosantos.draganddrop.textpicker;
+package com.example.brunosantos.draganddrop.textpicker.view;
 
 import android.content.Intent;
 import android.os.Bundle;

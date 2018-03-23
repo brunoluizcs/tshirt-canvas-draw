@@ -180,7 +180,6 @@ public class DrawnerEngine {
     }
 
 
-
     synchronized private void drawObjects(Context context, Canvas canvas){
 
         for (DrawnerObject drawnerObject : mDrawnerObjectList) {

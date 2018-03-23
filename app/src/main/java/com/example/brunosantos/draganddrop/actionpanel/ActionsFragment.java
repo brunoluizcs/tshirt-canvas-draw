@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.brunosantos.draganddrop.R;
 import com.example.brunosantos.draganddrop.engine.DrawnerEngine;
+import com.example.brunosantos.draganddrop.fontpicker.FontPickerDialog;
 import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
@@ -36,8 +36,15 @@ public class ActionsFragment extends Fragment {
     private ActionsAdapter mActionsAdapter;
     private final ActionsAdapter.ActionClickListener mActionClickListener = new ActionsAdapter.ActionClickListener(){
         @Override
-        public void onItemClicked(Actions actions) {
+        public void onItemClicked(View view, Actions actions) {
             switch (actions){
+                case FONT:
+                    int cx = (int) (view.getX() + (view.getWidth()/2));
+                    int cy = (int) (view.getY())+ view.getHeight();
+
+                    FontPickerDialog fontPickerDialog = new FontPickerDialog(getActivity(),cx,cy);
+                    fontPickerDialog.show();
+                    break;
                 case ZOON_IN:
                     DrawnerEngine.getInstance().zoomIn();
                     break;

@@ -17,7 +17,7 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 public class TextStamp implements Stamp {
 
     private String mText;
-    private String mAsset = "font_waltographUI.ttf";
+    private String mAsset = "fonts/font_waltographUI.ttf";
     private Rect mBounds;
     private float mTextSize;
 

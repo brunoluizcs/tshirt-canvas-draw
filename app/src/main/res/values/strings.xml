@@ -26,4 +26,6 @@
     <string name="action_tshirt">Camiseta</string>
     <string name="action_sweatshirt">Moleton</string>
     <string name="action_text_field">Texto</string>
+    <string name="description_font">Trocar Fonte</string>
+    <string name="action_font">Font</string>
 </resources>

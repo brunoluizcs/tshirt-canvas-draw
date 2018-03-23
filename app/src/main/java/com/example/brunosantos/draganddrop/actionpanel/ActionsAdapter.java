@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.ActionsViewHolder>{
 
     public interface ActionClickListener{
-        void onItemClicked(Actions actions);
+        void onItemClicked(View view, Actions actions);
     }
 
     private ActionClickListener mActionListener;
@@ -69,7 +69,7 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.ActionsV
         public void onClick(View view) {
             Actions action = Actions.values()[getAdapterPosition()];
             if (mActionListener != null){
-                mActionListener.onItemClicked(action);
+                mActionListener.onItemClicked(view, action);
             }
         }
     }
