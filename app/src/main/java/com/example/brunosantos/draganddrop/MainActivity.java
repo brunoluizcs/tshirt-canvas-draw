@@ -183,6 +183,7 @@ public class MainActivity extends BaseActivity {
                                 createTextStamp(text);
                             }
                         });
+                textPickerDialog.setHeight(mCanvasView.getHeight());
                 textPickerDialog.show();
                 break;
         }

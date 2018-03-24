@@ -90,6 +90,12 @@ public class TextPickerDialog extends Dialog implements
     }
 
 
+    public void setHeight(int height){
+        if (getWindow() != null){
+            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, height);
+        }
+    }
+
     private void setupUI() {
         if (getWindow() != null) {
             getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
