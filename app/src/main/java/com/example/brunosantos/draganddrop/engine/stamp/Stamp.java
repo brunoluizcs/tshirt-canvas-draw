@@ -9,5 +9,6 @@ public interface Stamp {
               float left, float top, float rotateDegrees, int color, float density);
     int getWidth();
     int getHeight();
+    void setAsset(String assetPath);
 
 }

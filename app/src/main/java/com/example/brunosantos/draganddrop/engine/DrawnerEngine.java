@@ -142,6 +142,12 @@ public class DrawnerEngine {
         }
     }
 
+    synchronized public void setAsset(String font){
+        if (mCurrentObject != null){
+            mCurrentObject.setAsset(font);
+        }
+    }
+
     public void scale(float factor) {
         if (mCurrentObject != null){
             mCurrentObject.scale(factor);

@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -21,8 +22,8 @@ public class TextStamp implements Stamp {
     private Rect mBounds;
     private float mTextSize;
 
-    public TextStamp(String text,float textSize) {
-        this.mText = text;
+    public TextStamp(@NonNull String text, float textSize) {
+        this.mText = text.toUpperCase();
         this.mTextSize = textSize;
 
         mBounds = new Rect();
@@ -48,10 +49,9 @@ public class TextStamp implements Stamp {
         paint.getTextBounds(mText,0,mText.length(),mBounds);
 
         float baseline = -paint.ascent();
-        Bitmap bitmap = Bitmap.createBitmap(mBounds.width(),mBounds.height(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(mBounds.width(),mBounds.height() + 30, Bitmap.Config.ARGB_8888);
         Canvas textCanvas = new Canvas(bitmap);
         textCanvas.drawText(mText, 0, baseline, paint);
-        //canvas.rotate(rotateDegrees);
 
         bitmap = Bitmap.createScaledBitmap(bitmap,
                 Math.round(width),
@@ -72,5 +72,10 @@ public class TextStamp implements Stamp {
     @Override
     public int getHeight() {
         return mBounds != null ? mBounds.height() : 1;
+    }
+
+    @Override
+    public void setAsset(String assetPath) {
+        this.mAsset =  assetPath;
     }
 }

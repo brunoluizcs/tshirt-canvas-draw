@@ -4,7 +4,6 @@
     android:layout_width="100dp"
     android:layout_height="50dp">
 
-
     <TextView
         android:id="@+id/text1"
         android:layout_width="match_parent"
@@ -12,7 +11,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textAllCaps="true"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         tools:text="Atelie"/>
 
 </FrameLayout>

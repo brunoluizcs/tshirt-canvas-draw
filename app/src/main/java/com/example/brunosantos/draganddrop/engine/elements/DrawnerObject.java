@@ -177,4 +177,9 @@ public class DrawnerObject implements
         scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 5.0f));
         setScale(scaleFactor);
     }
+
+    @Override
+    public void setAsset(String assetPath) {
+        stamp.setAsset(assetPath);
+    }
 }

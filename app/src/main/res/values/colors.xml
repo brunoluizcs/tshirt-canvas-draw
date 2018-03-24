@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorTextPickerBackground">@color/colorBlackOverlay</color>
-    <color name="colorFontPickerBackground">@color/colorTransparentGray</color>
+    <color name="colorFontPickerBackground">@color/colorBlackOverlay</color>
 
     <color name="colorWhite">@android:color/white</color>
     <color name="colorBlack">@android:color/black</color>

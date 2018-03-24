@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.example.brunosantos.draganddrop.R;
 
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -55,7 +53,7 @@ public class FontPickerAdapter extends RecyclerView.Adapter<FontPickerAdapter.Fo
         }
 
         public void bind(String font){
-            Typeface typeface = Typeface.createFromAsset(mContext.getAssets(),String.format(Locale.getDefault(),"fonts/%s",font));
+            Typeface typeface = Typeface.createFromAsset(mContext.getAssets(),font);
             mTextView1.setText("ATELIE");
             mTextView1.setTypeface(typeface);
         }
@@ -63,7 +61,8 @@ public class FontPickerAdapter extends RecyclerView.Adapter<FontPickerAdapter.Fo
         @Override
         public void onClick(View view) {
             if (mFontSelectedListener != null){
-                mFontSelectedListener.onFontSelected(mFonts[getAdapterPosition()]);
+                String font = mFonts[getAdapterPosition()];
+                mFontSelectedListener.onFontSelected(font);
             }
         }
     }

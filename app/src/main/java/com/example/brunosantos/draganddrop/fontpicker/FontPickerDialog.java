@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 
@@ -24,35 +23,33 @@ public class FontPickerDialog extends Dialog implements
     private int mCenterX;
     private int mCenterY;
     private boolean mIsCenterDefined;
-    private FontSelectedListener mFontSelectedListener = new FontSelectedListener() {
-        @Override
-        public void onFontSelected(String font) {
-            Log.d(TAG, "onFontSelected: " + font);
-        }
-    };
 
-    public FontPickerDialog(@NonNull Activity activity) {
+    public FontPickerDialog(@NonNull Activity activity, FontSelectedListener fontSelectedListener) {
         super(activity, R.style.AppTheme_TransparentDialog);
-        init();
+        init(fontSelectedListener);
     }
 
-    public FontPickerDialog(@NonNull Activity activity, int centerX, int centerY){
+    public FontPickerDialog(@NonNull Activity activity, int centerX, int centerY, FontSelectedListener fontSelectedListener){
         super(activity, R.style.AppTheme_TransparentDialog);
         mIsCenterDefined = true;
         mCenterX = centerX;
         mCenterY = centerY;
-        init();
+        init(fontSelectedListener);
     }
 
-    private void init() {
+    private void init(FontSelectedListener fontSelectedListener) {
+        FontPickerAdapter fontPickerAdapter =
+                new FontPickerAdapter(FontRepository.getFonts(getContext()),fontSelectedListener);
+
         mView = View.inflate(getContext(), R.layout.dialog_font_picker,null);
         setContentView(mView);
         setupUI();
 
+
         RecyclerView mRecyclerViewFontPicker = mView.findViewById(R.id.rv_font_picker);
         mRecyclerViewFontPicker.setLayoutManager(new GridLayoutManager(getContext(),3));
         mRecyclerViewFontPicker.setHasFixedSize(true);
-        mRecyclerViewFontPicker.setAdapter(new FontPickerAdapter(FontRepository.getFonts(getContext()),mFontSelectedListener));
+        mRecyclerViewFontPicker.setAdapter(fontPickerAdapter);
 
     }
 

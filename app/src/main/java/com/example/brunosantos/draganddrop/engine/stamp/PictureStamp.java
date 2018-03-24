@@ -108,6 +108,11 @@ public class PictureStamp implements Stamp {
     }
 
     @Override
+    public void setAsset(String assetPath) {
+        //mAssetName = assetPath;
+    }
+
+    @Override
     public void draw(Context context, Canvas canvas, float width, float height,
                      float left, float top, float rotateDegrees, int color, float density) {
 

@@ -14,4 +14,5 @@ public interface ElementStamp {
     void move(float x, float y);
     boolean intersect(RectF rect);
     void scale(float factor);
+    void setAsset(String font);
 }

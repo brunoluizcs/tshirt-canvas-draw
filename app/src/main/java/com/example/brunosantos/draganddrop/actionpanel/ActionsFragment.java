@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.brunosantos.draganddrop.R;
 import com.example.brunosantos.draganddrop.engine.DrawnerEngine;
 import com.example.brunosantos.draganddrop.fontpicker.FontPickerDialog;
+import com.example.brunosantos.draganddrop.fontpicker.FontSelectedListener;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
@@ -39,11 +40,7 @@ public class ActionsFragment extends Fragment {
         public void onItemClicked(View view, Actions actions) {
             switch (actions){
                 case FONT:
-                    int cx = (int) (view.getX() + (view.getWidth()/2));
-                    int cy = (int) (view.getY())+ view.getHeight();
-
-                    FontPickerDialog fontPickerDialog = new FontPickerDialog(getActivity(),cx,cy);
-                    fontPickerDialog.show();
+                    selectFont(view);
                     break;
                 case ZOON_IN:
                     DrawnerEngine.getInstance().zoomIn();
@@ -72,6 +69,19 @@ public class ActionsFragment extends Fragment {
             }
         }
     };
+
+    private void selectFont(View view) {
+        int cx = (int) (view.getX() + (view.getWidth()/2));
+        int cy = (int) (view.getY())+ view.getHeight();
+
+        FontPickerDialog fontPickerDialog = new FontPickerDialog(getActivity(), cx, cy, new FontSelectedListener() {
+            @Override
+            public void onFontSelected(String font) {
+                DrawnerEngine.getInstance().setAsset(font);
+            }
+        });
+        fontPickerDialog.show();
+    }
 
     private void setStampColor() {
         ColorPickerDialogBuilder
