@@ -1,8 +1,8 @@
 package com.example.brunosantos.draganddrop;
 
 import android.content.ClipDescription;
-import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -10,6 +10,7 @@ import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,10 +19,12 @@ import com.example.brunosantos.draganddrop.engine.DrawnerEngine;
 import com.example.brunosantos.draganddrop.engine.stamp.PictureStamp;
 import com.example.brunosantos.draganddrop.engine.stamp.TextStamp;
 import com.example.brunosantos.draganddrop.stamppicker.StampPickerFragment;
-import com.example.brunosantos.draganddrop.textpicker.view.TextPickerActivity;
+import com.example.brunosantos.draganddrop.textpicker.TextPickerDialog;
+import com.example.brunosantos.draganddrop.textpicker.TextSelectedListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnTouch;
 
 import static com.example.brunosantos.draganddrop.engine.scketch.SketchFactory.SWEATSHIRT;
 import static com.example.brunosantos.draganddrop.engine.scketch.SketchFactory.TSHIRT;
@@ -34,6 +37,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.fl_container_screen) CanvasView mCanvasView;
     @BindView(R.id.toolbar_main) Toolbar mToolbar;
 
+    private View mActionTextField;
 
 
     @Override
@@ -135,12 +139,14 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.drawner,menu);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id  = item.getItemId();
+        mActionTextField =  findViewById(R.id.action_text_field);
 
         switch (id){
             case R.id.action_color_white:
@@ -166,12 +172,24 @@ public class MainActivity extends BaseActivity {
                 DrawnerEngine.getInstance().setSketchType(SWEATSHIRT);
                 break;
             case R.id.action_text_field:
-                startActivityForResult(new Intent(this, TextPickerActivity.class),TEXT_REQUEST);
-                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                int[] position = getTouchItemPosition();
+
+                TextPickerDialog textPickerDialog = new TextPickerDialog(this,
+                        position[0],
+                        position[1],
+                        new TextSelectedListener() {
+                            @Override
+                            public void onTextSelected(String text) {
+                                createTextStamp(text);
+                            }
+                        });
+                textPickerDialog.show();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     private void loadStampPickerFragment(){
         getSupportFragmentManager()
@@ -187,17 +205,7 @@ public class MainActivity extends BaseActivity {
                 .commit();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == TEXT_REQUEST) {
-                if (data.getExtras() != null && data.hasExtra(Intent.EXTRA_TEXT)){
-                    createTextStamp(data.getStringExtra(Intent.EXTRA_TEXT));
-                }
-            }
-        }
-    }
+
 
     public void createTextStamp(String text){
         float density = getResources().getDisplayMetrics().density;
@@ -207,6 +215,21 @@ public class MainActivity extends BaseActivity {
                 textStamp.getWidth(),
                 textStamp.getHeight(),
                 density);
+
+    }
+
+    public int[] getTouchItemPosition(){
+        int[] itemWindowLocation = new int[2];
+        mActionTextField.getLocationInWindow(itemWindowLocation);
+
+        int[] toolbarWindowLocation = new int[2];
+        mToolbar.getLocationInWindow(toolbarWindowLocation);
+
+        int itemX = itemWindowLocation[0] - toolbarWindowLocation[0];
+        int itemY = itemWindowLocation[1] - toolbarWindowLocation[1];
+        int centerX = itemX + mActionTextField.getWidth() / 2;
+        int centerY = itemY + mActionTextField.getHeight();
+        return new int[]{centerX,centerY};
 
     }
 }

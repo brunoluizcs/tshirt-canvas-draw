@@ -21,9 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".textpicker.view.TextPickerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TextPicker"/>
+
 
     </application>
 

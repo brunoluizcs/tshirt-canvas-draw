@@ -12,13 +12,14 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class TextStamp implements Stamp {
 
     private String mText;
-    private String mAsset = "fonts/font_waltographUI.ttf";
+    private String mAsset;
     private Rect mBounds;
     private float mTextSize;
 
@@ -36,22 +37,28 @@ public class TextStamp implements Stamp {
     @Override
     public void draw(Context context, Canvas canvas, float width, float height,
                      float left, float top, float rotateDegrees, int color,float density) {
-
-        Typeface plain = Typeface.createFromAsset(context.getAssets(), mAsset);
         Paint paint = new Paint(ANTI_ALIAS_FLAG);
         paint.setTextSize(mTextSize);
         paint.setTextAlign(Paint.Align.LEFT);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setTypeface(plain);
+
+        if (! TextUtils.isEmpty(mAsset)) {
+            paint.setTypeface(Typeface.createFromAsset(context.getAssets(), mAsset));
+        }
         paint.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         mBounds = new Rect();
         paint.getTextBounds(mText,0,mText.length(),mBounds);
 
-        float baseline = -paint.ascent();
-        Bitmap bitmap = Bitmap.createBitmap(mBounds.width(),mBounds.height() + 30, Bitmap.Config.ARGB_8888);
+        float marginDp = (int) 16f * density;
+        int bitmapWidth = mBounds.width() + (int) marginDp;
+        int bitmapHeight = mBounds.height() + (int) marginDp;
+        Bitmap bitmap = Bitmap.createBitmap(bitmapWidth,bitmapHeight, Bitmap.Config.ARGB_8888);
         Canvas textCanvas = new Canvas(bitmap);
-        textCanvas.drawText(mText, 0, baseline, paint);
+
+        float x = bitmapWidth / 2f - mBounds.width() / 2f - mBounds.left;
+        float y = bitmapHeight / 2f + mBounds.height() / 2f - mBounds.bottom;
+        textCanvas.drawText(mText,x,y, paint);
 
         bitmap = Bitmap.createScaledBitmap(bitmap,
                 Math.round(width),
