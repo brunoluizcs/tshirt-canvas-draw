@@ -21,10 +21,11 @@ public class DrawnerObject implements
     private int zIndex = 0;
     private float density = 0f;
     private int color;
+    private boolean flipHorizontal = false;
 
 
     public DrawnerObject(Stamp stamp, float left, float top, float width, float height,
-                         float scale, float density) {
+                         float scale, float density, boolean flipHorizontal) {
         this.stamp = stamp;
         this.left = left;
         this.top = top;
@@ -32,20 +33,24 @@ public class DrawnerObject implements
         this.height = height;
         this.scale = scale;
         this.density = density;
+        this.flipHorizontal = flipHorizontal;
     }
 
     public RectF getRectF(){
-        int right = Math.round(left + getWidth());
+        int right = ! isFlipHorizontal() ? Math.round(getLeft() + getWidth()) : Math.round(getLeft() - getWidth()) ;
         int bottom = Math.round(top + getHeight());
-        RectF rectF = new RectF(Math.round(left),Math.round(top),right,bottom);
+        RectF rectF = new RectF(Math.round(getLeft()),Math.round(top),right,bottom);
         Matrix m = new Matrix();
-        m.setRotate(rotateDegrees, rectF.centerX(), rectF.centerY());
+        m.setRotate(getRotateDegrees(), rectF.centerX(), rectF.centerY());
         m.mapRect(rectF);
         return rectF;
     }
 
 
     public float getLeft() {
+        if (isFlipHorizontal()){
+            return left + left - (left /2);
+        }
         return left;
     }
 
@@ -112,10 +117,18 @@ public class DrawnerObject implements
         return density;
     }
 
+    public void setFlipHorizontal(boolean flip){
+        this.flipHorizontal = flip;
+    }
+
+    public boolean isFlipHorizontal(){
+        return flipHorizontal;
+    }
+
     @Override
     public void draw(Context context, Canvas canvas) {
         stamp.draw(context,canvas,getWidth(),getHeight(),getLeft(),getTop(),
-                getRotateDegrees(),getColor(),getDensity());
+                getRotateDegrees(),getColor(),getDensity(),isFlipHorizontal());
 
     }
 
@@ -137,16 +150,28 @@ public class DrawnerObject implements
 
     @Override
     public void rotateLeft() {
-        float degrees = getRotateDegrees();
-        degrees -= 3 * 10.0f;
-        setRotateDegrees(degrees);
+        if (! isFlipHorizontal()) {
+            float degrees = getRotateDegrees();
+            degrees -= 3 * 10.0f;
+            setRotateDegrees(degrees);
+        }else{
+            float degrees = getRotateDegrees();
+            degrees += 3 * 10.0f;
+            setRotateDegrees(degrees);
+        }
     }
 
     @Override
     public void rotateRight() {
-        float degrees = getRotateDegrees();
-        degrees += 3 * 10.0f;
-        setRotateDegrees(degrees);
+        if ( ! isFlipHorizontal()) {
+            float degrees = getRotateDegrees();
+            degrees += 3 * 10.0f;
+            setRotateDegrees(degrees);
+        }else{
+            float degrees = getRotateDegrees();
+            degrees -= 3 * 10.0f;
+            setRotateDegrees(degrees);
+        }
     }
 
     @Override
@@ -157,6 +182,10 @@ public class DrawnerObject implements
     @Override
     public void flipToBack() {
         decZIndex();
+    }
+
+    public void flipHorizontal(){
+        setFlipHorizontal(! isFlipHorizontal());
     }
 
     @Override

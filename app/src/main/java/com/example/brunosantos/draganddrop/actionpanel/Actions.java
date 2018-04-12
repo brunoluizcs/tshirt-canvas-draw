@@ -11,6 +11,7 @@ public enum Actions {
 
     ZOON_IN (R.string.action_zoom_in,R.string.description_zoom_in,R.drawable.ic_zoom_in),
     ZOON_OUT (R.string.action_zoom_out,R.string.description_zoom_out,R.drawable.ic_zoom_out),
+    FLIP_HORIZONTAL(R.string.action_horizontal,R.string.description_flip_horizontal,R.drawable.ic_flip_horizontal),
     ROTATE_LEFT (R.string.action_rotate_left,R.string.description_rotate_left,R.drawable.ic_rotate_left),
     ROTATE_RIGHT (R.string.action_rotate_right,R.string.description_rotate_right,R.drawable.ic_rotate_right),
     FONT(R.string.action_font,R.string.description_font,R.drawable.ic_font_download),

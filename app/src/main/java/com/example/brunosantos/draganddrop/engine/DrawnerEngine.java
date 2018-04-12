@@ -38,6 +38,8 @@ public class DrawnerEngine {
     private static int mState;
 
 
+
+
     @IntDef({NONE,MOVING, ZOOM})
     @interface State{}
 
@@ -160,8 +162,15 @@ public class DrawnerEngine {
         }
     }
 
-    synchronized public void addStamp(Stamp stamp, float left, float top, float width, float height, float density){
-        mDrawnerObjectList.add(new DrawnerObject(stamp,left,top,width,height,1.f, density));
+    public void flipHorizontal() {
+        if (mCurrentObject != null){
+            mCurrentObject.flipHorizontal();
+        }
+    }
+
+    synchronized public void addStamp(Stamp stamp, float left, float top, float width, float height,
+                                      float density, boolean flipHorizontal){
+        mDrawnerObjectList.add(new DrawnerObject(stamp,left,top,width,height,1.f, density,flipHorizontal));
     }
 
     synchronized public void delete(){

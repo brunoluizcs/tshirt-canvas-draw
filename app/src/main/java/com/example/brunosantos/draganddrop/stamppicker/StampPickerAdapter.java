@@ -10,9 +10,9 @@ import java.util.List;
 
 public class StampPickerAdapter extends FragmentStatePagerAdapter {
 
-    private List<Integer> mDataSet;
+    private List<String> mDataSet;
 
-    public StampPickerAdapter(@NonNull List<Integer> dataSet, FragmentManager fm) {
+    public StampPickerAdapter(@NonNull List<String> dataSet, FragmentManager fm) {
         super(fm);
         this.mDataSet = dataSet;
     }

@@ -36,7 +36,9 @@ public class TextStamp implements Stamp {
 
     @Override
     public void draw(Context context, Canvas canvas, float width, float height,
-                     float left, float top, float rotateDegrees, int color,float density) {
+                     float left, float top, float rotateDegrees, int color,float density,
+                     boolean flipHorizontal) {
+
         Paint paint = new Paint(ANTI_ALIAS_FLAG);
         paint.setTextSize(mTextSize);
         paint.setTextAlign(Paint.Align.LEFT);
@@ -65,9 +67,12 @@ public class TextStamp implements Stamp {
                 Math.round(height),false);
 
         Matrix matrix = new Matrix();
+        if (flipHorizontal){
+            matrix.preScale(-1,1);
+        }
+
         matrix.preRotate(rotateDegrees,width/2, height/2);
         matrix.postTranslate(left,top);
-
         canvas.drawBitmap(bitmap,matrix,paint);
     }
 

@@ -95,7 +95,8 @@ public class MainActivity extends BaseActivity {
                                 event.getX(),event.getY(),
                                 pictureStamp.getWidth(),
                                 pictureStamp.getHeight(),
-                                density);
+                                density,
+                                false);
                     }
 
                     if (v instanceof ImageView)
@@ -215,7 +216,8 @@ public class MainActivity extends BaseActivity {
                 100,100,
                 textStamp.getWidth(),
                 textStamp.getHeight(),
-                density);
+                density,
+                false);
 
     }
 

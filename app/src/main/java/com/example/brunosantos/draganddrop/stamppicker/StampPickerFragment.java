@@ -1,5 +1,6 @@
 package com.example.brunosantos.draganddrop.stamppicker;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.brunosantos.draganddrop.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,11 +51,18 @@ public class StampPickerFragment extends Fragment {
 
 
     private void loadCollections() {
-        List<Integer> integers = new ArrayList<>();
-        integers.add(1);
-        integers.add(999);
-
-        mAdapter = new StampPickerAdapter(integers, getFragmentManager());
+        List<String> collections = new ArrayList<>();
+        try {
+            String[] assets = getContext().getAssets().list("");
+            for(int i = 0; i <= assets.length -1; i++){
+                if (assets[i].startsWith("collection")){
+                    collections.add(assets[i]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mAdapter = new StampPickerAdapter(collections, getFragmentManager());
         mViewPager.setAdapter(mAdapter);
     }
 }

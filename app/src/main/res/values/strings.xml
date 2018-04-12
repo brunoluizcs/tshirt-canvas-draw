@@ -28,4 +28,6 @@
     <string name="action_text_field">Texto</string>
     <string name="description_font">Trocar Fonte</string>
     <string name="action_font">Font</string>
+    <string name="action_horizontal">Flip Horizontal</string>
+    <string name="description_flip_horizontal">Espelhar</string>
 </resources>

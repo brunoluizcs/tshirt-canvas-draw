@@ -48,6 +48,9 @@ public class ActionsFragment extends Fragment {
                 case ZOON_OUT:
                     DrawnerEngine.getInstance().zoomOut();
                     break;
+                case FLIP_HORIZONTAL:
+                    DrawnerEngine.getInstance().flipHorizontal();
+                    break;
                 case ROTATE_LEFT:
                     DrawnerEngine.getInstance().rotateLeft();
                     break;

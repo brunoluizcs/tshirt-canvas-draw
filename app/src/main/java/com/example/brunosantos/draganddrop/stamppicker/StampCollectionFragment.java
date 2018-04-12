@@ -15,19 +15,19 @@ import butterknife.ButterKnife;
 
 
 public class StampCollectionFragment extends Fragment {
-    private static final String EXTRA_COLLECTION_ID = "extra-collection-id";
-    public int mCollectionId;
+    private static final String EXTRA_COLLECTION_NAME = "extra-collection-name";
+    public String mCollectionName;
 
     @BindView(R.id.rv_collection_stamp) RecyclerView mCollectionStampRecyclerView;
 
     private StampAdapter mStampAdapter;
 
 
-    static StampCollectionFragment newInstance(int collectionId) {
+    static StampCollectionFragment newInstance(String collectionName) {
         StampCollectionFragment f = new StampCollectionFragment();
 
         Bundle args = new Bundle();
-        args.putInt(EXTRA_COLLECTION_ID, collectionId);
+        args.putString(EXTRA_COLLECTION_NAME, collectionName);
         f.setArguments(args);
 
         return f;
@@ -36,7 +36,7 @@ public class StampCollectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCollectionId = getArguments() != null ? getArguments().getInt(EXTRA_COLLECTION_ID) : 0;
+        mCollectionName = getArguments() != null ? getArguments().getString(EXTRA_COLLECTION_NAME,"") : "";
     }
 
 
@@ -52,7 +52,7 @@ public class StampCollectionFragment extends Fragment {
             mStampAdapter = new StampAdapter();
         }
 
-        Collection collection = CollectionRepository.getCollection(mCollectionId);
+        Collection collection = CollectionRepository.getCollection(getContext(), mCollectionName);
         mCollectionStampRecyclerView.setAdapter(mStampAdapter);
         mStampAdapter.swapDataSet(collection.getStamps());
         return v;

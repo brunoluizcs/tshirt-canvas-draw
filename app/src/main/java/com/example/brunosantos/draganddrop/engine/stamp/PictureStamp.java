@@ -96,6 +96,8 @@ public class PictureStamp implements Stamp {
         return bitmap;
     }
 
+
+
     @Override
     public int getWidth() {
         return mWidth;
@@ -114,7 +116,8 @@ public class PictureStamp implements Stamp {
 
     @Override
     public void draw(Context context, Canvas canvas, float width, float height,
-                     float left, float top, float rotateDegrees, int color, float density) {
+                     float left, float top, float rotateDegrees, int color, float density,
+                     boolean flipHorizontal) {
 
         Bitmap bitmap = this.getBitmap(context);
         if (bitmap == null){
@@ -125,18 +128,18 @@ public class PictureStamp implements Stamp {
                 Math.round(width),
                 Math.round(height),false);
 
+
+
         Matrix matrix = new Matrix();
+
+        if (flipHorizontal){
+            matrix.preScale(-1.0f,1.0f);
+        }
         matrix.preRotate(rotateDegrees,width/2,height/2);
         matrix.postTranslate(left,top);
 
         Paint paint = PaintFactory.getInstance().getPaint();
         paint.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         canvas.drawBitmap(bitmap,matrix,paint);
-
     }
-
-
-
-
-
 }
